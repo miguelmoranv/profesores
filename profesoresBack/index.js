@@ -40,11 +40,13 @@ app.post('/profesores/agregar', (req, res) =>{
     colonia,
     cp,
     municipio,
-    estado
+    estado,
+    password
     } = req.body
 
-    const sql = "INSERT INTO profesores (clave, nombres, apellidos, fnacimiento, email, sexo, estadocivil, tcasa, curp, tcelular, calle, colonia, cp, municipio, estado, estatus) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-    db.query(sql, [clave, nombres, apellidos, fNacimiento, email, sexo, estadoCivil, tCasa, curp, tCelular, calle, colonia, cp, municipio, estado, 'inactivo'], (err, result) =>{
+    bcrypt.hash(password, saltRounds,(err, hash)=>{
+        const sql = "INSERT INTO profesores (clave, nombres, apellidos, fnacimiento, email, sexo, estadocivil, tcasa, curp, tcelular, calle, colonia, cp, municipio, estado, estatus, password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    db.query(sql, [clave, nombres, apellidos, fNacimiento, email, sexo, estadoCivil, tCasa, curp, tCelular, calle, colonia, cp, municipio, estado, 'inactivo',hash], (err, result) =>{
         if(err){
             res.send({
                 status: 100,
@@ -59,6 +61,9 @@ app.post('/profesores/agregar', (req, res) =>{
         }
     })
 })
+    })
+
+    
 app.get('/profesores', (req, res) =>{
     const sql = 'SELECT * FROM profesores'
     db.query(sql, (err, result, fields) =>{

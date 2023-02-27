@@ -30,12 +30,13 @@ const ProfesoresAgregar = () => {
         cp:'',
         municipio:'',
         estado:'',
+        password:'',
         //estatus:'',
     }
 
     const [datos, setDatos] = useState(initialState);
 
-    const {clave, nombres, apellidos, fnacimiento, email, sexo, estadocivil, tcasa, curp, tcelular, calle, colonia, cp, municipio, estado} = datos;
+    const {clave, nombres, apellidos, fnacimiento, email, sexo, estadocivil, tcasa, curp, tcelular, calle, colonia, cp, municipio, estado, password} = datos;
 
     const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const ProfesoresAgregar = () => {
         e.preventDefault();
 
         //variable que solo funcionará en esta const
-        const {clave, nombres, apellidos, fnacimiento, email, sexo, estadocivil, tcasa, curp, tcelular, calle, colonia, cp, municipio, estado} = datos;
+        const {clave, nombres, apellidos, fnacimiento, email, sexo, estadocivil, tcasa, curp, tcelular, calle, colonia, cp, municipio, estado, password} = datos;
         
         const formData = new FormData();
 
@@ -69,6 +70,7 @@ const ProfesoresAgregar = () => {
         formData.append("cp", cp);
         formData.append("municipio", municipio);
         formData.append("estado", estado);
+        formData.append("password",password);   
 
         await axios.post('http://localhost:5000/profesores/agregar', formData)
         .then((response) => {
@@ -212,6 +214,11 @@ const ProfesoresAgregar = () => {
                             <Form.Group className="mb-3" controlId="formEstado">
                                 <Form.Label>Estado</Form.Label>
                                 <Form.Control name='estado' type="text" placeholder="Ingrese su estado" required value={estado} onChange={handleChange}/>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control name='password' type="password" placeholder="Ingresa tu password" required value={password} onChange={handleChange}/>
                             </Form.Group>
 
                             <Button variant="primary" type="submit">
